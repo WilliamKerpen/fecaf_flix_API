@@ -32,7 +32,7 @@ import routerUser from './src/routes/routersUser.js';
 const app = express();
 
 app.use(cors({
-  origin:'*', //alterar para apenas meu github.// origin: 'https://seuusuario.github.io',
+  origin:'https://WilliamKerpen..github.io', //alterar para apenas meu github.// origin: 'https://WilliamKerpen..github.io',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
