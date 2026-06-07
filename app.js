@@ -40,7 +40,12 @@ app.use(cors({
     
 app.use(express.json());
 app.use('/public', express.static('public'));
-app.use('/v1/fecaf-flix', router, routerAdmin, routerUser, routerGenero);
+
+//Express 5 nao USAR Rotas na mesma linha, criar um USE para cada
+app.use('/v1/fecaf-flix', router);
+app.use('/v1/fecaf-flix', routerAdmin);
+app.use('/v1/fecaf-flix', routerUser);
+app.use('/v1/fecaf-flix', routerGenero);
 
 
 app.listen(8080, () => {
