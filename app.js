@@ -33,7 +33,7 @@ import routerGenero from './src/routes/routersGeneros.js';
 const app = express();
 
 app.use(cors({
-  origin:'https://WilliamKerpen.github.io', //alterar para apenas meu github.// origin: 'https://WilliamKerpen..github.io',
+  origin:'https://williamkerpen.github.io', //alterar para apenas meu github.// origin: 'https://WilliamKerpen..github.io',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
