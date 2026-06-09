@@ -50,3 +50,10 @@ export async function putGenero(req, res) {
     return res.status(500).json({ erro: 'Erro ao atualizar gênero' });
   }
 }
+
+// retornar todos Generos
+
+export async function todosGeneros(req, res) {
+  const generos = await listarGeneros();
+  res.status(200).json(generos);
+}
