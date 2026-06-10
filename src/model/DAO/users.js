@@ -7,8 +7,15 @@ export async function buscarUserPorEmail(email) {
     FROM tbl_users
     WHERE email = ?
   `;
+
   const [rows] = await db.execute(sql, [email]);
-  return rows[0]; // retorna 1 user ou undefined
+
+  // Se não encontrou, retorna null 
+  if (!rows || rows.length === 0) {
+    return null;
+  }
+
+  return rows[0];
 }
 
 // Criar usuário normal
