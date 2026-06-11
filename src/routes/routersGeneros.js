@@ -1,7 +1,7 @@
 import express from 'express';
-import { postGenero, putGenero } from '../controller/genero/controllerGeneros.js';
+import { postGenero, putGenero, todosGeneros} from '../controller/genero/controllerGeneros.js';
 import { autenticarToken, somenteAdmin } from '../middleware/auth.js';
-import { listarGeneros } from '../model/DAO/generos.js';
+
 
 const routerGenero = express.Router();
 
@@ -13,6 +13,6 @@ routerGenero.put('/generos/:id_genero', autenticarToken, somenteAdmin, putGenero
 
 // LIstar todos os generos
 
-routerGenero.get('/generos', autenticarToken, listarGeneros)
+routerGenero.get('/generos', autenticarToken, todosGeneros)
 
 export default routerGenero;

@@ -2,20 +2,32 @@ import db from '../../config/db.js';
 
 // Buscar usuário normal pelo email
 export async function buscarUserPorEmail(email) {
-  const sql = `
-    SELECT id_user, nome, sobrenome, email, senha_hash, ativo, data_nascimento, data_criacao
-    FROM tbl_users
-    WHERE email = ?
-  `;
+  try {
+    const sql = `
+      SELECT id_user, nome, sobrenome, email, senha_hash, ativo, data_nascimento, data_criacao
+      FROM tbl_users
+      WHERE email = ?
+    `;
 
-  const [rows] = await db.execute(sql, [email]);
+    const result = await db.execute(sql, [email]);
 
-  // Se não encontrou, retorna null 
-  if (!rows || rows.length === 0) {
-    return null;
+    // Se o MySQL retornar algo inesperado
+    if (!result || !Array.isArray(result) || result.length === 0) {
+      return null;
+    }
+
+    const [rows] = result;
+
+    if (!rows || rows.length === 0) {
+      return null;
+    }
+
+    return rows[0];
+
+  } catch (error) {
+    console.error("ERRO NO DAO buscarUserPorEmail:", error);
+    return null; // evita quebrar o fluxo
   }
-
-  return rows[0];
 }
 
 // Criar usuário normal
