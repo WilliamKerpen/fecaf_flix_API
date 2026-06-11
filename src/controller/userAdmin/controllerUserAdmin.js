@@ -74,7 +74,8 @@ export async function loginAdmin(req, res) {
       {
         id: admin.id_admin,   // ou admin.id, dependendo do nome da coluna
         nome: admin.nome,
-        cargo: admin.cargo
+        cargo: admin.cargo,
+        tipo: "admin" 
       },
       process.env.JWT_SECRET, // precisa existir no .env
       { expiresIn: process.env.JWT_EXPIRES_IN }
