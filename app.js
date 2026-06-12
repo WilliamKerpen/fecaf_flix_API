@@ -33,8 +33,13 @@ import routerGenero from './src/routes/routersGeneros.js';
 const app = express();
 
 app.use(cors({
-  origin:'https://williamkerpen.github.io', //alterar para apenas meu github.// origin: 'https://WilliamKerpen..github.io',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  origin: [
+    'https://fecaf-flix-api.xyz',
+    'https://www.fecaf-flix-api.xyz',
+    'https://williamkerpen.github.io'   // <-- pode deixar sem problema
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true
 }));
 
     
