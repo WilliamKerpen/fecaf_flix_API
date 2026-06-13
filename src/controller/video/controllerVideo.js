@@ -1,4 +1,4 @@
-import { getVideoById, getAllVideos,getFilmesByFiltro,inserirFilme, atualizarFilme , deletarFilme, buscarFilmesPorGenero  } from '../../model/DAO/video.js';
+import { getVideoById, getAllVideos,getFilmesByFiltro,inserirFilme, atualizarFilme , deletarFilme, buscarFilmesPorGenero, inserirFilmeGenero } from '../../model/DAO/video.js';
 
 //funcao para listar todos os videos
 export async function listarVideos(req, res) {
@@ -45,13 +45,15 @@ export async function filtrarFilmes(req, res) {
 // Criar filme com upload
 export async function postFilme(req, res) {
   try {
-    const { nome_filme, sinopse, ano } = req.body;
+    // Agora também recebemos os gêneros enviados pelo front
+    const { nome_filme, sinopse, ano, generos } = req.body;
 
+    // Validação dos campos obrigatórios
     if (!nome_filme || !sinopse || !ano) {
       return res.status(400).json({ erro: 'Campos obrigatórios faltando' });
     }
 
-    // Arquivos enviados
+    // Validação dos arquivos enviados
     const capa = req.files?.capa?.[0]?.filename;
     const video = req.files?.video?.[0]?.filename;
 
@@ -59,6 +61,7 @@ export async function postFilme(req, res) {
       return res.status(400).json({ erro: 'Capa e vídeo são obrigatórios' });
     }
 
+    // Monta o objeto do novo filme
     const novoFilme = {
       nome_filme,
       sinopse,
@@ -67,15 +70,30 @@ export async function postFilme(req, res) {
       url_video: `/public/videos/${video}`
     };
 
-    const id = await inserirFilme(novoFilme);
+    // 1️⃣ Insere o filme na tabela tbl_filmes
+    const id_filme = await inserirFilme(novoFilme);
 
+    // 2️⃣ Insere os gêneros na tabela relacional tbl_filme_genero
+    // O front deve enviar: generos = [1, 3, 5]
+    if (!generos || generos.length === 0) {
+      console.warn("⚠ Nenhum gênero enviado. O filme ficará sem categoria.");
+    } else {
+      // Garante que seja array
+      const listaGeneros = Array.isArray(generos) ? generos : [generos];
+
+      for (const id_genero of listaGeneros) {
+        await inserirFilmeGenero(id_filme, id_genero);
+      }
+    }
+
+    // 3️⃣ Retorna sucesso
     return res.status(201).json({
       mensagem: 'Filme criado com sucesso',
-      id_filme: id
+      id_filme: id_filme
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao criar filme:", error);
     return res.status(500).json({ erro: 'Erro ao criar filme' });
   }
 }

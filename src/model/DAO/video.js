@@ -132,3 +132,12 @@ export async function buscarFilmesPorGenero(nome_genero) {
   return rows;
 }
 
+//inserir na tabela filme_genero
+export async function inserirFilmeGenero(id_filme, id_genero) {
+  const sql = `
+    INSERT INTO tbl_filme_genero (id_filme, id_genero)
+    VALUES (?, ?)
+  `;
+
+  await db.execute(sql, [id_filme, id_genero]);
+}
