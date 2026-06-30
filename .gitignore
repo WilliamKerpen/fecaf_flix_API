@@ -1,3 +1,4 @@
 .env
 src/config/db.js
 node_modules
+public
