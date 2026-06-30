@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
-import { buscarUserPorEmail, criarUser, atualizarUser } from '../../model/DAO/users.js';
+import { buscarUserPorEmail, criarUser, atualizarUser, deletarUsuario } from '../../model/DAO/users.js';
 
 // Cadastrar usuário normal
 export async function cadastrarUser(req, res) {
@@ -132,5 +132,32 @@ export async function putUser(req, res) {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
+  }
+}
+
+// deletar Usuario
+
+export async function deletarUserController(req, res) {
+  try {
+    const id_user = req.user.id_user;
+
+    const linhasAfetadas = await deletarUsuario(id_user);
+
+    if (linhasAfetadas === 0) {
+      return res.status(404).json({
+        erro: 'Usuário não encontrado'
+      });
+    }
+
+    return res.status(200).json({
+      mensagem: 'Usuário deletado com sucesso'
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      erro: 'Erro ao deletar usuário'
+    });
   }
 }

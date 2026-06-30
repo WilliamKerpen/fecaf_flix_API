@@ -71,3 +71,16 @@ export async function atualizarUser(id_user, dados) {
 }
 
 
+// Deletar Usuario
+
+export async function deletarUsuario(id_user) {
+  const sql = `
+    DELETE FROM tbl_users
+    WHERE id_user = ?
+  `;
+
+  const [result] = await db.execute(sql, [id_user]);
+
+  return result.affectedRows;
+}
+
